@@ -23,7 +23,7 @@ RSpec.describe Category, type: :model do
     it "is invalid with a name longer than 100 characters" do
       category = Category.new(name: "A" * 101)
       expect(category).not_to be_valid
-      expect(category.errors[:name]).to include("is too long (maximum 100 characters)")
+      expect(category.errors[:name]).to include("is too long (maximum is 100 characters)")
     end
   end
 end
