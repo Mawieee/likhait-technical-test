@@ -47,7 +47,12 @@ export async function fetchCategories(): Promise<
 }
 
 /**
- * Create a new category
+ * Purpose: Sends a request to the backend to create and persist a new expense category.
+ *
+ * @param name - The name of the category to create (must be unique).
+ * @returns A Promise resolving to the newly created category object containing id and name.
+ *
+ * Side Effects: Makes a POST request to the backend database to insert a new category row.
  */
 export async function createCategory(
   name: string,
