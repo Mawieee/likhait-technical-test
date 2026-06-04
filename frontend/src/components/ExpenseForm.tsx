@@ -1,23 +1,33 @@
-/**
- * Form component for adding/editing expenses
- */
-
 import React from "react";
 import { ExpenseFormData } from "../types";
-import { EXPENSE_CATEGORIES } from "../constants/categories";
 import { TextField, SelectBox, Button } from "../vibes";
 import { useExpenseForm } from "../hooks/useExpenseForm";
 import { formatDate } from "../utils/expenseUtils";
 
 interface ExpenseFormProps {
   initialData?: Partial<ExpenseFormData>;
+  categories: Array<{ id: number; name: string }>;
   onSubmit: (data: ExpenseFormData) => Promise<void>;
   onCancel?: () => void;
   submitLabel?: string;
 }
 
+/**
+ * Purpose: Renders a form for adding or editing an expense, using the categories list passed via props.
+ *
+ * @param props - Component props containing:
+ *   - initialData (ExpenseFormData, optional): Initial values for form fields.
+ *   - categories (Array): Dynamic list of categories fetched from the database.
+ *   - onSubmit (Function): Callback invoked on form submit.
+ *   - onCancel (Function, optional): Callback invoked on form cancel.
+ *   - submitLabel (String, optional): Label for the submit button. Defaults to 'Add Expense'.
+ * @returns React element representing the expense form.
+ *
+ * Side Effects: Manages form state through the useExpenseForm custom hook.
+ */
 export function ExpenseForm({
   initialData,
+  categories,
   onSubmit,
   onCancel,
   submitLabel = "Add Expense",
@@ -40,9 +50,9 @@ export function ExpenseForm({
     marginTop: "0.5rem",
   };
 
-  const categoryOptions = EXPENSE_CATEGORIES.map((category) => ({
-    value: category,
-    label: category,
+  const categoryOptions = categories.map((cat) => ({
+    value: cat.name,
+    label: cat.name,
   }));
 
   return (
