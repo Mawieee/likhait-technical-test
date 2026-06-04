@@ -1,5 +1,12 @@
 # Clear existing data
 puts "Clearing existing data..."
+
+# Purpose: Disable ActiveRecord query logging during seeding to speed up execution
+# on host-mounted filesystems (especially on Windows where NTFS file writes are slow).
+# Returns: nil.
+# Side Effects: Silences SQL logging during this script execution.
+ActiveRecord::Base.logger = nil
+
 Expense.destroy_all
 Category.destroy_all
 

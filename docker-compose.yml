@@ -52,6 +52,7 @@ services:
     volumes:
       - ./backend:/rails
       - backend_gems:/usr/local/bundle
+      - /rails/vendor
     command: >
       sh -c "
         bundle install &&

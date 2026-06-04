@@ -31,12 +31,10 @@ Rails.application.configure do
   # Disable request forgery protection in test environment.
   config.action_controller.allow_forgery_protection = false
 
-  # Disable ActionDispatch::HostAuthorization in tests.
+  # Disable ActionDispatch::HostAuthorization in tests by setting hosts to nil.
   # RSpec request specs use Rack::Test which sends requests with host "example.org"
-  # by default. Rather than guess and enumerate all test hosts, we remove the
-  # middleware entirely from the test stack. This is the standard solution for
-  # Rails API testing — host authorization only matters in production.
-  config.middleware.delete ActionDispatch::HostAuthorization
+  # by default. Rather than guess and enumerate all test hosts, we set config.hosts to nil.
+  config.hosts = nil
 
   # Store uploaded files on the local file system in a temporary directory.
   config.active_storage.service = :test
