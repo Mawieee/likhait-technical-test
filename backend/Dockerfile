@@ -7,9 +7,18 @@ FROM ruby:$RUBY_VERSION-slim
 # Rails app lives here
 WORKDIR /rails
 
-# Install base packages
+# Install base packages.
+# libyaml-dev  — required by the psych gem's native C extension (yaml.h)
+# dos2unix     — converts CRLF line endings on bin/ scripts (needed on Windows hosts)
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential ca-certificates default-mysql-client default-libmysqlclient-dev git && \
+    apt-get install --no-install-recommends -y \
+      build-essential \
+      ca-certificates \
+      default-mysql-client \
+      default-libmysqlclient-dev \
+      libyaml-dev \
+      dos2unix \
+      git && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Install application gems
@@ -22,6 +31,10 @@ RUN bundle config set --local deployment 'false' && \
 
 # Copy application code
 COPY . .
+
+# Fix Windows CRLF line endings on bin/ scripts so they run inside the Linux container.
+# Without this, scripts fail with "-r: invalid option" because the \r is treated as an argument.
+RUN find bin/ -type f | xargs dos2unix && chmod +x bin/*
 
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile --gemfile app/ lib/
