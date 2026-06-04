@@ -1,0 +1,15 @@
+# .gitattributes
+# Enforce Unix LF line endings for all shell scripts and Ruby files
+# so they work correctly inside Linux Docker containers regardless of
+# the operating system the developer is using to clone the repo.
+
+# Default: normalize all text files to LF on checkout
+* text=auto eol=lf
+
+# Explicitly mark shell scripts as binary-safe LF
+*.sh text eol=lf
+bin/* text eol=lf
+
+# Windows-specific files can use CRLF
+*.bat text eol=crlf
+*.cmd text eol=crlf
